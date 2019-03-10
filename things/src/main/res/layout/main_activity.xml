@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/reset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reset" />
+
+    <Button
+        android:layout_marginTop="16dp"
+        android:id="@+id/grab_cube"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Grab cube" />
+
+    <Button
+        android:layout_marginTop="16dp"
+        android:id="@+id/test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Grab / Release" />
+
+    <Button
+        android:layout_marginTop="16dp"
+        android:id="@+id/twist_face"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Twist Face" />
+
+    <Button
+        android:layout_marginTop="16dp"
+        android:id="@+id/turn_cube"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Turn Cube" />
+</LinearLayout>

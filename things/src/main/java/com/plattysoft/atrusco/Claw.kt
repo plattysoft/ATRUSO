@@ -18,13 +18,13 @@ class Claw(pca9685: PCA9685, gripChannel: Int, rotationChannel: Int) {
         gripServo.setEnabled(true)
 
         rotationServo = pca9685.openServo(rotationChannel)
-        rotationServo.setPulseDurationRange(.6, 2.86)
+        rotationServo.setPulseDurationRange(.6, 2.75)
         rotationServo.setAngleRange(-90.0, 90.0)
         rotationServo.setEnabled(true)
     }
 
     fun grab() {
-        gripServo.angle = 100.0
+        gripServo.angle = 60.0
     }
 
     fun release() {
@@ -41,5 +41,13 @@ class Claw(pca9685: PCA9685, gripChannel: Int, rotationChannel: Int) {
 
     fun resetRotation() {
         rotationServo.angle = 0.0
+    }
+
+    fun grabSoftly() {
+        gripServo.angle = 35.0
+    }
+
+    fun setGripPulseDurationRange(minPulse: Double, maxPulse: Double) {
+        gripServo.setPulseDurationRange(minPulse, maxPulse)
     }
 }
