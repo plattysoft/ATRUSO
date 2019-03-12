@@ -3,19 +3,11 @@ package com.plattysoft.atrusco
 /**
  * Created by Raul Portales on 10/03/2019.
  */
-class Scramble: ArrayList<Movement>() {
+class Scramble(numItems: Int = DEFAULT_LENGTH) : ArrayList<Movement>() {
 
     companion object {
         const val DEFAULT_LENGTH = 25
     }
-
-    class Builder {
-        fun build(): Scramble{
-            return Scramble()
-        }
-    }
-
-    val numItems = DEFAULT_LENGTH
 
     init {
         val movement = Movement.getRandom()

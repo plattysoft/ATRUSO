@@ -50,4 +50,16 @@ class Claw(pca9685: PCA9685, gripChannel: Int, rotationChannel: Int) {
     fun setGripPulseDurationRange(minPulse: Double, maxPulse: Double) {
         gripServo.setPulseDurationRange(minPulse, maxPulse)
     }
+
+    fun turn(direction: Direction) {
+        if (direction == Direction.CW) {
+            turnClockWise()
+        }
+        else  if (direction == Direction.CCW){
+            turnCounterClockWise()
+        }
+        else {
+            throw UnsupportedOperationException("Half turns not supported")
+        }
+    }
 }

@@ -11,9 +11,11 @@ private val TAG = MainActivity::class.java.simpleName
 
 class MainActivity : Activity() {
 
+    lateinit var cubeManipulator: CubeManipulator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupServo()
+        cubeManipulator = CubeManipulator()
 
         setContentView(R.layout.main_activity)
 
@@ -21,119 +23,35 @@ class MainActivity : Activity() {
         Log.d("Scramble", scramble.toString())
 
         findViewById<View>(R.id.grab_cube).setOnClickListener {
-            grabCarefully()
+            cubeManipulator.grabCarefully()
         }
 
         findViewById<View>(R.id.twist_face).setOnClickListener {
-            twistFace()
+            cubeManipulator.twistFace()
         }
 
         findViewById<View>(R.id.turn_cube).setOnClickListener {
-            turnCube()
+            cubeManipulator.turnCube()
         }
 
         findViewById<View>(R.id.reset).setOnClickListener {
-            resetState()
+            cubeManipulator.resetState()
         }
 
         findViewById<View>(R.id.test).setOnClickListener {
-            test()
+            cubeManipulator.test()
         }
     }
 
-    private fun test() {
-        Thread.sleep(600)
-        leftClaw.turnClockWise()
-        Thread.sleep(600)
-        leftClaw.turnCounterClockWise()
-        Thread.sleep(600)
-        leftClaw.resetRotation()
-//        rightClaw.grab()
-//        leftClaw.grab()
-//        Thread.sleep(600)
-//        rightClaw.release()
-//        Thread.sleep(600)
-//        rightClaw.grab()
-//        Thread.sleep(600)
-//        leftClaw.release()
-//        Thread.sleep(600)
-//        leftClaw.grab()
-//        Thread.sleep(600)
-    }
-
-    private fun turnCube() {
-        rightClaw.grab()
-        leftClaw.release()
-        rightClaw.turnClockWise()
-        Thread.sleep(600)
-        leftClaw.grab()
-        Thread.sleep(400)
-        rightClaw.release()
-        Thread.sleep(400)
-        rightClaw.resetRotation()
-        Thread.sleep(600)
-        rightClaw.grab()
-    }
-
-    private fun resetState() {
-        rightClaw.resetRotation()
-        leftClaw.resetRotation()
-        rightClaw.release()
-        leftClaw.release()
-    }
-
-
-    fun grabCarefully() {
-        rightClaw.resetRotation()
-        leftClaw.resetRotation()
-        rightClaw.release()
-        leftClaw.release()
-        Thread.sleep(600)
-        rightClaw.grabSoftly()
-        leftClaw.grabSoftly()
-    }
-
-    fun twistFace() {
-        leftClaw.grab()
-        Thread.sleep(200)
-        rightClaw.turnClockWise()
-        Thread.sleep(600)
-        rightClaw.release()
-        Thread.sleep(800)
-        rightClaw.resetRotation()
-        Thread.sleep(600)
-        rightClaw.grab()
+    fun performSequence(moves: List<Movement>) {
+        for (move in moves) {
+            cubeManipulator.performMove(move)
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        destroyServo()
-    }
-
-    private lateinit var pca9685: PCA9685
-
-    private lateinit var rightClaw: Claw
-    private lateinit var leftClaw: Claw
-
-    private fun setupServo() {
-        try {
-            pca9685 = PCA9685()
-            rightClaw = Claw(pca9685, 0, 1)
-            rightClaw.setGripPulseDurationRange(1.0, 2.5)
-            leftClaw = Claw(pca9685, 2, 3)
-            leftClaw.setGripPulseDurationRange(1.0, 2.0)
-        } catch (e: IOException) {
-            Log.e(TAG, "Error creating Servo", e)
-        }
-
-    }
-
-    private fun destroyServo() {
-        try {
-            pca9685.close()
-        } catch (e: IOException) {
-            Log.e(TAG, "Error closing Servo")
-        }
+        cubeManipulator.close()
     }
 
 }
